@@ -21,7 +21,7 @@ import User from 'src/user/user.entity';
         entities: [User],
         migrations: ['./migrations/*.ts'],
         migrationsTableName: 'yourjourney_migrations',
-        ssl: true,
+        ssl: configService.get<string>('NODE_ENV') === 'development',
       }),
     }),
   ],
