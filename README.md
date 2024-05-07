@@ -22,9 +22,7 @@ The microservices include:
 
 ## Architecture
 
-<div>
-  <iframe width="768" height="432" src="https://miro.com/app/live-embed/uXjVKLYmoO4=/?moveToViewport=-617,-308,1320,640&embedId=710158375176" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
-</div>
+Please click this [link](<https://miro.com/app/board/uXjVKLYmoO4=/?share_link_id=533518134454>) to view the board
 
 ## API Endpoints
 
