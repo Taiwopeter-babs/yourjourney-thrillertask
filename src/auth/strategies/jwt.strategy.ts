@@ -13,11 +13,15 @@ import { AuthService } from '../auth.service';
  * Extracts the cookie value from the request object
  */
 export const cookieExtractor = (request: Request): string => {
-  let accessToken = null;
+  let accessToken: string;
 
-  if (request.cookies) accessToken = request.cookies[constants.cookieName];
+  if (request.cookies) {
+    accessToken = request.cookies[constants.cookieName];
 
-  return accessToken;
+    return accessToken;
+  }
+
+  return '';
 };
 
 @Injectable()
