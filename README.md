@@ -1,74 +1,50 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# ThrillersTravels Backend Task Submission
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Content
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [Description](#description)
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The task is to implement a travel booking platform with Nestjs using a microservices architecture that utilizes `RabbitMQ` or `Kafka` as a message broker to enable communication between these services. `RabbitMQ` was used in this implementation.
 
-## Installation
+The microservices include:
 
-```bash
-$ npm install
-```
+- **User Management Service** - This microservice is the central point in the application as it serves as the middleman between the microservices. Every request - authorization, bookings, and reservations - is routed to the user service before communication is established with the other microservices.
 
-## Running the app
+  This enables permission authorization before any other microservice is pinged.
 
-```bash
-# development
-$ npm run start
+- **Flight Booking Service** -  This microservice is responsible for the booking or cancellation of flights. Only authenticated and authorized users will be able to get access to this service.
 
-# watch mode
-$ npm run start:dev
+- **Hotel Reservation Service** -  This microservice is responsible for the reservation and cancellation of hotel reservations. Only authenticated and authorized users will be able to get access to this service.
 
-# production mode
-$ npm run start:prod
-```
+**NOTE**: The last two microservices are simple implementations.
 
-## Test
+## Architecture
 
-```bash
-# unit tests
-$ npm run test
+<iframe width="768" height="432" src="https://miro.com/app/live-embed/uXjVKLYmoO4=/?moveToViewport=-617,-308,1320,640&embedId=710158375176" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
 
-# e2e tests
-$ npm run test:e2e
+## API Endpoints
 
-# test coverage
-$ npm run test:cov
-```
+The API is deployed on render.
 
-## Support
+The base url `https://yourjourney-thrillertask.onrender.com` must be suffixed with `/api`.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+`{{base_url}}` refers to the above.
 
-## Stay in touch
+### Authentication
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- **POST `{{base_url}}`/api/auth/users/register**
+- **POST `{{base_url}}`/api/auth/users/login**
 
-## License
+### Flight Bookings
 
-Nest is [MIT licensed](LICENSE).
-# yourjourney-thrillertask
+- **POST `{{base_url}}`/api/users/:id/flights** - book a flight
+- **GET `{{base_url}}`/api/users/:id/flights/:flightId** - Get a booked flight
+- **DELETE `{{base_url}}`/api/users/:id/flights/:flightId** - Cancel a booked flight
+
+### Hotel Reservations
+
+- **POST `{{base_url}}`/api/users/:id/reservations** - make a reservation
+- **GET `{{base_url}}`/api/users/:id/reservations/:reservationIdId** - Get a reservation
+- **DELETE `{{base_url}}`/api/users/:id/reservations/:reservationIdId** - Cancel a reservation
