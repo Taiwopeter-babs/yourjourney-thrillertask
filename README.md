@@ -3,6 +3,8 @@
 ## Content
 
 - [Description](#description)
+- [Architecture](#architecture)
+- [API Endpoints](#api-endpoints)
 
 ## Description
 
