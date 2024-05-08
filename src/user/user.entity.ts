@@ -26,7 +26,6 @@ export default class User extends BaseEntity {
   @Column({
     type: 'varchar',
     length: 128,
-    unique: true,
     nullable: false,
   })
   public password: string;

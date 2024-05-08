@@ -37,11 +37,11 @@ export class ReservationService {
   public async getSingleReservation(
     reservationId: string,
   ): Promise<ReservationDto> {
-    const flight = (await this.repo.getSingleReservation(
+    const reservation = (await this.repo.getSingleReservation(
       reservationId,
     )) as ReservationDto;
 
-    return flight;
+    return reservation;
   }
 
   public async createReservation(reservation: CreateReservationDto) {

@@ -30,7 +30,7 @@ export class FlightService {
     return flight;
   }
 
-  public async getSingletFlight(flightId: string): Promise<FlightDto> {
+  public async getSingleFlight(flightId: string): Promise<FlightDto> {
     const flight = (await this.repo.getSingleFlight(flightId)) as FlightDto;
 
     return flight;

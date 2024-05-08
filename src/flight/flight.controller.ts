@@ -16,8 +16,24 @@ export class FlightController {
     return newFlightBooking;
   }
 
+  @MessagePattern({ cmd: 'getSingleFlight' })
+  public async getSingleFlight(@Payload() flightId: string) {
+    return await this.flightService.getSingleFlight(flightId);
+  }
+
   @MessagePattern({ cmd: 'getUserFlight' })
   public async getUserFlight(@Payload() flightDto: GetUserFlightDto) {
+    const { userId, flightId } = flightDto;
+    const userFlight = await this.flightService.getSingleUserFlight(
+      userId,
+      flightId,
+    );
+
+    return userFlight;
+  }
+
+  @MessagePattern({ cmd: 'getUserFlights' })
+  public async getUserFlights(@Payload() flightDto: GetUserFlightDto) {
     const { userId, flightId } = flightDto;
     const userFlight = await this.flightService.getSingleUserFlight(
       userId,

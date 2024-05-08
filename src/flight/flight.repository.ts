@@ -30,7 +30,7 @@ export class FlightRepository {
   }
 
   public async getSingleFlight(flightId: string): Promise<Flight> {
-    return (await this.getSingleFlight(flightId)) as Flight;
+    return (await this.getFlight(flightId)) as Flight;
   }
 
   public async getPagedFlights(

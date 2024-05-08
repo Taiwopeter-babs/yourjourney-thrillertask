@@ -31,8 +31,10 @@ export class ReservationRepository {
     )) as Reservation;
   }
 
-  public async getSingleReservation(flightId: string): Promise<Reservation> {
-    return (await this.getReservation(flightId)) as Reservation;
+  public async getSingleReservation(
+    reservationId: string,
+  ): Promise<Reservation> {
+    return (await this.getReservation(reservationId)) as Reservation;
   }
 
   public async getPagedReservations(

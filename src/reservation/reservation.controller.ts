@@ -19,6 +19,11 @@ export class ReservationController {
     return newReservation;
   }
 
+  @MessagePattern({ cmd: 'getSingleReservation' })
+  public async getSingleFlight(@Payload() reservationId: string) {
+    return await this.resService.getSingleReservation(reservationId);
+  }
+
   @MessagePattern({ cmd: 'getUserReservation' })
   public async getUserReservation(@Payload() resDto: GetUserReservationDto) {
     const { userId, reservationId } = resDto;

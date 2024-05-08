@@ -102,18 +102,32 @@ export class UserController {
 
   @Post(':id/flights')
   @UseGuards(JwtAuthGuard)
-  public async bookFlight(@Body() flightDto: CreateFlightDto) {
+  public async bookFlight(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() flightDto: CreateFlightDto,
+  ) {
+    // check user
+    await this.userService.getUser(id);
+
     return this.flightService.send({ cmd: 'bookFlight' }, flightDto);
+  }
+
+  /** Admin restricted method */
+  @Get('flights/:flightId')
+  @UseGuards(RoleGuard(Role.Admin))
+  @UseGuards(JwtAuthGuard)
+  public async getSingleFlight(@Param('flightId') flightId: string) {
+    // const data: GetUserFlightDto = { userId: id, flightId: flightId };
+
+    return this.flightService.send({ cmd: 'getSingleFlight' }, flightId);
   }
 
   @Get(':id/flights/:flightId')
   @UseGuards(JwtAuthGuard)
   public async getSingleUserFlight(
     @Param('id', ParseIntPipe) id: number,
-    @Req() request: Request,
+    @Param('flightId') flightId: string,
   ) {
-    const { flightId } = request.params;
-
     const data: GetUserFlightDto = { userId: id, flightId: flightId };
 
     return this.flightService.send({ cmd: 'getUserFlight' }, data);
@@ -137,6 +151,16 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   public async makeReservation(@Body() resDto: CreateReservationDto) {
     return this.resService.send({ cmd: 'makeReservation' }, resDto);
+  }
+
+  /** Admin restricted method */
+  @Get('reservations/:reservationId')
+  @UseGuards(RoleGuard(Role.Admin))
+  @UseGuards(JwtAuthGuard)
+  public async getSingleReservation(
+    @Param('reservationId') reservationId: string,
+  ) {
+    return this.resService.send({ cmd: 'getSingleReservation' }, reservationId);
   }
 
   @Get(':id/reservations/:reservationId')
