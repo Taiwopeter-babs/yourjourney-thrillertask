@@ -24,7 +24,7 @@ export class UserService {
   public async getUser(userId: number): Promise<UserDto> {
     const user = (await this.repo.getUser(userId)) as User;
     console.log(user);
-    return DtoMapper.toUserDto(user);
+    return DtoMapper.toUserDto(user, true);
   }
 
   public async getUserByEmail(email: string): Promise<UserDto> {
