@@ -13,6 +13,8 @@ export default function errorHandler(error: Error) {
     'ServerErrorException',
     'UserAlreadyExistsException',
     'WrongCredentialsException',
+    'FlightNotFoundException',
+    'ReservationNotFoundException',
   ];
 
   const { name, message } = error;
