@@ -5,6 +5,7 @@ import { ICorsConfig } from './lib/types';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { MicroServicesExceptionFilter } from './exceptions/exceptionFilter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,16 +36,22 @@ async function bootstrap() {
   const host = configService.get('RABBITMQ_HOST');
   const queueName = configService.get('RABBITMQ_QUEUE_NAME');
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.RMQ,
-    options: {
-      urls: [`amqp://${user}:${password}@${host}`],
-      queue: queueName,
-      queueOptions: {
-        durable: true,
+  app.connectMicroservice<MicroserviceOptions>(
+    {
+      transport: Transport.RMQ,
+      options: {
+        urls: [`amqp://${user}:${password}@${host}`],
+        queue: queueName,
+        queueOptions: {
+          durable: true,
+        },
       },
     },
-  });
+    { inheritAppConfig: true },
+  );
+
+  // register microservices exception filter
+  app.useGlobalFilters(new MicroServicesExceptionFilter());
 
   await app.startAllMicroservices();
 

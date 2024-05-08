@@ -14,6 +14,7 @@ import { FlightNotFoundException } from '../exceptions/notFound';
 
 import { IPagination, PagedFlightDto, PagedItemDto } from '../lib/types';
 import getPaginationOffset from '../lib/pagination';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class FlightRepository {
@@ -120,12 +121,13 @@ export class FlightRepository {
       });
 
       if (!flight) {
-        throw new FlightNotFoundException(flightId);
+        throw new RpcException(new FlightNotFoundException(flightId));
       }
 
       return flight;
     } catch (error) {
-      errorHandler(error);
+      throw error;
+      // errorHandler(error);
     }
   }
 
@@ -145,6 +147,7 @@ export class FlightRepository {
       return flight;
     } catch (error) {
       errorHandler(error);
+      // throw error;
     }
   }
 

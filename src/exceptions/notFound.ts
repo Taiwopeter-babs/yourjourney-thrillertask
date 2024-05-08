@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 
 export class NotFoundException extends HttpException {
   constructor(message: string) {
@@ -12,14 +13,20 @@ export class UserNotFoundException extends NotFoundException {
   }
 }
 
-export class FlightNotFoundException extends NotFoundException {
+export class FlightNotFoundException extends RpcException {
   constructor(flightId: number | string) {
-    super(`Flight booking with the id: ${flightId}, was not found`);
+    super({
+      statusCode: HttpStatus.NOT_FOUND,
+      message: `Flight booking with the id: ${flightId}, was not found`,
+    });
   }
 }
 
-export class ReservationNotFoundException extends NotFoundException {
+export class ReservationNotFoundException extends RpcException {
   constructor(reservationId: number | string) {
-    super(`Reservation with the id: ${reservationId}, was not found`);
+    super({
+      statusCode: HttpStatus.NOT_FOUND,
+      message: `Reservation with the id: ${reservationId}, was not found`,
+    });
   }
 }

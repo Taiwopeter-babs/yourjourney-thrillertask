@@ -4,8 +4,7 @@ import { ServerErrorException } from './serverError';
 
 /**
  * Every error is a class that is derived from HttpException
- * @param errorName The name of the exception
- * @param value The value to pass into the error constructor
+ * @param error The error
  */
 export default function errorHandler(error: Error) {
   const exceptionsList = [
@@ -19,9 +18,20 @@ export default function errorHandler(error: Error) {
 
   const { name, message } = error;
 
-  if (exceptionsList.indexOf(name) === -1) {
+  console.log(error);
+
+  console.log(name);
+
+  const isAvailable = exceptionsList.find((exceptions) =>
+    exceptions.includes(name),
+  );
+
+  if (!isAvailable) {
     throw new ServerErrorException(message);
   }
 
+  console.log('Appropriate error');
+
+  // throw error;
   throw error;
 }

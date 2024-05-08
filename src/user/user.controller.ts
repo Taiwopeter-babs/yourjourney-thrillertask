@@ -10,6 +10,7 @@ import {
   Post,
   Put,
   Req,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
@@ -21,18 +22,24 @@ import { JwtAuthGuard } from '../auth/guards/auth.guard';
 import { UpdateUserDto, UserRoleDto } from './dto/createUser.dto';
 import RoleGuard from 'src/auth/guards/role.guard';
 import { Role } from './user.entity';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
+
 import {
   CreateFlightDto,
   DeleteFlightDto,
 } from 'src/flight/dto/createFlight.dto';
 import { GetUserFlightDto } from 'src/flight/dto/flight.dto';
+
 import {
   CreateReservationDto,
   DeleteReservationDto,
 } from 'src/reservation/dto/createReservation.dto';
-import { GetUserReservationDto } from 'src/reservation/dto/reservation.dto';
 
+import { GetUserReservationDto } from 'src/reservation/dto/reservation.dto';
+import { catchError, throwError } from 'rxjs';
+import { MicroServicesExceptionFilter } from '../exceptions/exceptionFilter';
+
+@UseFilters(new MicroServicesExceptionFilter())
 @Controller('users')
 export class UserController {
   constructor(
@@ -109,7 +116,13 @@ export class UserController {
     // check user
     await this.userService.getUser(id);
 
-    return this.flightService.send({ cmd: 'bookFlight' }, flightDto);
+    return this.flightService
+      .send({ cmd: 'bookFlight' }, flightDto)
+      .pipe(
+        catchError((error) =>
+          throwError(() => new RpcException(error.response)),
+        ),
+      );
   }
 
   /** Admin restricted method */
@@ -119,7 +132,13 @@ export class UserController {
   public async getSingleFlight(@Param('flightId') flightId: string) {
     // const data: GetUserFlightDto = { userId: id, flightId: flightId };
 
-    return this.flightService.send({ cmd: 'getSingleFlight' }, flightId);
+    return this.flightService
+      .send({ cmd: 'getSingleFlight' }, flightId)
+      .pipe(
+        catchError((error) =>
+          throwError(() => new RpcException(error.response)),
+        ),
+      );
   }
 
   @Get(':id/flights/:flightId')
@@ -130,7 +149,13 @@ export class UserController {
   ) {
     const data: GetUserFlightDto = { userId: id, flightId: flightId };
 
-    return this.flightService.send({ cmd: 'getUserFlight' }, data);
+    return this.flightService
+      .send({ cmd: 'getUserFlight' }, data)
+      .pipe(
+        catchError((error) =>
+          throwError(() => new RpcException(error.response)),
+        ),
+      );
   }
 
   @Delete(':id/flights/:flightId')
@@ -148,7 +173,13 @@ export class UserController {
   @Post(':id/reservations')
   @UseGuards(JwtAuthGuard)
   public async makeReservation(@Body() resDto: CreateReservationDto) {
-    return this.resService.send({ cmd: 'makeReservation' }, resDto);
+    return this.resService
+      .send({ cmd: 'makeReservation' }, resDto)
+      .pipe(
+        catchError((error) =>
+          throwError(() => new RpcException(error.response)),
+        ),
+      );
   }
 
   /** Admin restricted method */
@@ -158,7 +189,13 @@ export class UserController {
   public async getSingleReservation(
     @Param('reservationId') reservationId: string,
   ) {
-    return this.resService.send({ cmd: 'getSingleReservation' }, reservationId);
+    return this.resService
+      .send({ cmd: 'getSingleReservation' }, reservationId)
+      .pipe(
+        catchError((error) =>
+          throwError(() => new RpcException(error.response)),
+        ),
+      );
   }
 
   @Get(':id/reservations/:reservationId')
@@ -174,7 +211,13 @@ export class UserController {
       reservationId: reservationId,
     };
 
-    return this.resService.send({ cmd: 'getUserReservation' }, data);
+    return this.resService
+      .send({ cmd: 'getUserReservation' }, data)
+      .pipe(
+        catchError((error) =>
+          throwError(() => new RpcException(error.response)),
+        ),
+      );
   }
 
   @Delete(':id/reservations/:reservationId')
@@ -188,6 +231,11 @@ export class UserController {
       reservationId: reservationId,
     };
 
-    return this.flightService.send({ cmd: 'cancelFlight' }, data);
+    return this.resService.send({ cmd: 'cancelReservation' }, data);
+    // .pipe(
+    //   catchError((error) =>
+    //     throwError(() => new RpcException(error.response)),
+    //   ),
+    // );
   }
 }

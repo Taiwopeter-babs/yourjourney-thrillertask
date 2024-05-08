@@ -1,9 +1,11 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseFilters } from '@nestjs/common';
 import { FlightService } from './flight.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateFlightDto, DeleteFlightDto } from './dto/createFlight.dto';
 import { GetUserFlightDto } from './dto/flight.dto';
+import { MicroServicesExceptionFilter } from '../exceptions/exceptionFilter';
 
+@UseFilters(new MicroServicesExceptionFilter())
 @Controller('flight')
 export class FlightController {
   constructor(private readonly flightService: FlightService) {}
