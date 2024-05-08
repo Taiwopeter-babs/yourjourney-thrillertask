@@ -50,3 +50,7 @@ The base url `https://yourjourney-thrillertask.onrender.com` must be suffixed wi
 - **POST `{{base_url}}`/api/users/:id/reservations** - make a reservation
 - **GET `{{base_url}}`/api/users/:id/reservations/:reservationIdId** - Get a reservation
 - **DELETE `{{base_url}}`/api/users/:id/reservations/:reservationIdId** - Cancel a reservation
+
+## Postman
+
+The postman documentation can be found here: [Documentation](https://documenter.getpostman.com/view/27156707/2sA3JKcMvk)
