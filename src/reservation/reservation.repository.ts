@@ -11,7 +11,7 @@ import { ReservationDto } from './dto/reservation.dto';
 import errorHandler from '../exceptions/errorHandler';
 import { ReservationNotFoundException } from '../exceptions/notFound';
 
-import { IPagination, PagedItemDto } from 'src/lib/types';
+import { IPagination, PagedItemDto, PagedReservationDto } from 'src/lib/types';
 import getPaginationOffset from '../lib/pagination';
 
 @Injectable()
@@ -58,8 +58,8 @@ export class ReservationRepository {
 
       const totalPages = Math.ceil(itemsCount / pageParams.pageSize);
 
-      const data: PagedItemDto = {
-        entities: reservations.map((res) => res as ReservationDto),
+      const data: PagedReservationDto = {
+        reservations: reservations.map((res) => res as ReservationDto),
         currentPage: pageParams.pageNumber,
         pageSize: pageParams.pageSize,
         totalPages: totalPages,

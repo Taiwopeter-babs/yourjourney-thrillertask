@@ -21,7 +21,7 @@ export interface ITokenPayload {
 }
 
 export type PagedItemDto = {
-  entities: UserDto[] | FlightDto[] | ReservationDto[];
+  // entities: UserDto[] | FlightDto[] | ReservationDto[];
   hasPrevious: boolean;
   hasNext: boolean;
   totalItems: number;
@@ -29,3 +29,15 @@ export type PagedItemDto = {
   pageSize: number;
   totalPages: number;
 };
+
+export type PagedUserDto = {
+  users: UserDto[];
+} & PagedItemDto;
+
+export type PagedFlightDto = {
+  flights: FlightDto[];
+} & PagedItemDto;
+
+export type PagedReservationDto = {
+  reservations: ReservationDto[];
+} & PagedItemDto;

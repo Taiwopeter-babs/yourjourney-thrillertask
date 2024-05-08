@@ -1,5 +1,7 @@
+import Reservation from '../reservation/reservation.entity';
 import BaseEntity from '../lib/base/base.entity';
-import { Entity, Column, Index } from 'typeorm';
+import { Entity, Column, Index, OneToMany } from 'typeorm';
+import Flight from '../flight/flight.entity';
 
 export enum Gender {
   MALE = 'male',
@@ -64,4 +66,10 @@ export default class User extends BaseEntity {
     default: [Role.User],
   })
   public roles: Role[];
+
+  @OneToMany(() => Reservation, (reservation) => reservation.user)
+  reservations: Reservation[];
+
+  @OneToMany(() => Flight, (flight) => flight.user)
+  flights: Flight[];
 }

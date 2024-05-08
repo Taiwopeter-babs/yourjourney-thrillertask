@@ -1,5 +1,6 @@
+import User from '../user/user.entity';
 import BaseEntity from '../lib/base/base.entity';
-import { Entity, Column, Index } from 'typeorm';
+import { Entity, Column, Index, ManyToOne } from 'typeorm';
 
 @Entity('reservations')
 export default class Reservation extends BaseEntity {
@@ -29,4 +30,7 @@ export default class Reservation extends BaseEntity {
     nullable: false,
   })
   public departureDate: Date;
+
+  @ManyToOne(() => User, (user) => user.reservations)
+  user: User;
 }

@@ -1,4 +1,6 @@
+import Flight from 'src/flight/flight.entity';
 import { Role } from '../user.entity';
+import Reservation from 'src/reservation/reservation.entity';
 
 export default class UserDto {
   public id: number;
@@ -20,4 +22,8 @@ export default class UserDto {
   public updatedAt: Date;
 
   public roles?: Role[];
+
+  public flights?: Flight[];
+
+  public reservations?: Reservation[];
 }

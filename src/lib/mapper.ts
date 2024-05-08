@@ -7,11 +7,16 @@ import Flight from '../flight/flight.entity';
  * Maps entity from and to the Dto
  */
 export default class DtoMapper {
-  public static toUserDto(entity: User): UserDto {
+  public static toUserDto(entity: User, includeRelations = false): UserDto {
     const dtoObj = { ...entity } as UserDto;
 
     delete dtoObj.password;
     delete dtoObj.roles;
+
+    if (!includeRelations) {
+      delete dtoObj.flights;
+      delete dtoObj.reservations;
+    }
 
     return dtoObj;
   }

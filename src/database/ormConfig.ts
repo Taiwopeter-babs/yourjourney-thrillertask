@@ -5,6 +5,8 @@
 import { DataSource } from 'typeorm';
 import configuration from '../configuration';
 import User from '../user/user.entity';
+import Flight from '../flight/flight.entity';
+import Reservation from '../reservation/reservation.entity';
 
 /**
  * This is for typeorm migrations generation.
@@ -12,14 +14,11 @@ import User from '../user/user.entity';
 const dataSource: DataSource = new DataSource({
   // TypeORM PostgreSQL DB Drivers configuration
   ...configuration().POSTGRES,
-  entities: [User],
+  entities: [User, Flight, Reservation],
   // Synchronize database schema with entities
   synchronize: configuration().NODE_ENV === 'development',
   migrations: ['./migrations/*.ts'],
   migrationsTableName: 'yourjourney_migrations',
 });
-
-console.log(configuration().NODE_ENV);
-console.log(configuration().POSTGRES);
 
 export default dataSource;

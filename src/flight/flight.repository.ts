@@ -12,7 +12,7 @@ import { FlightDto } from './dto/flight.dto';
 import errorHandler from '../exceptions/errorHandler';
 import { FlightNotFoundException } from '../exceptions/notFound';
 
-import { IPagination, PagedItemDto } from 'src/lib/types';
+import { IPagination, PagedFlightDto, PagedItemDto } from '../lib/types';
 import getPaginationOffset from '../lib/pagination';
 
 @Injectable()
@@ -54,8 +54,8 @@ export class FlightRepository {
 
       const totalPages = Math.ceil(itemsCount / pageParams.pageSize);
 
-      const data: PagedItemDto = {
-        entities: flights.map((flight) => DtoMapper.toFlightDto(flight)),
+      const data: PagedFlightDto = {
+        flights: flights.map((flight) => DtoMapper.toFlightDto(flight)),
         currentPage: pageParams.pageNumber,
         pageSize: pageParams.pageSize,
         totalPages: totalPages,

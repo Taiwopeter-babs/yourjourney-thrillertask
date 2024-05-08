@@ -15,7 +15,7 @@ import errorHandler from '../exceptions/errorHandler';
 import { UserAlreadyExistsException } from '../exceptions/badRequest';
 import { UserNotFoundException } from '../exceptions/notFound';
 
-import { IPagination, PagedItemDto } from 'src/lib/types';
+import { IPagination, PagedItemDto, PagedUserDto } from '../lib/types';
 import getPaginationOffset from '../lib/pagination';
 
 @Injectable()
@@ -50,8 +50,8 @@ export class UserRepository {
 
       const totalPages = Math.ceil(itemsCount / pageParams.pageSize);
 
-      const data: PagedItemDto = {
-        entities: interns.map((user) => DtoMapper.toUserDto(user)),
+      const data: PagedUserDto = {
+        users: interns.map((user) => DtoMapper.toUserDto(user, false)),
         currentPage: pageParams.pageNumber,
         pageSize: pageParams.pageSize,
         totalPages: totalPages,
@@ -70,6 +70,7 @@ export class UserRepository {
     try {
       const user = await this.repo.findOne({
         where: { email: email },
+        relations: { reservations: false, flights: false },
       });
 
       if (!user) {
