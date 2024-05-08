@@ -32,14 +32,12 @@ export default class User extends BaseEntity {
 
   @Column({
     type: 'varchar',
-    unique: true,
     nullable: false,
   })
   public firstName: string;
 
   @Column({
     type: 'varchar',
-    unique: true,
     nullable: false,
   })
   public lastName: string;
