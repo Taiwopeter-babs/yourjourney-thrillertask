@@ -137,10 +137,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   public async cancelFlight(
     @Param('id', ParseIntPipe) id: number,
-    @Req() request: Request,
+    @Param('flightId') flightId: string,
   ) {
-    const { flightId } = request.params;
-
     const data: DeleteFlightDto = { userId: id, flightId: flightId };
 
     return this.flightService.send({ cmd: 'cancelFlight' }, data);
@@ -183,10 +181,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   public async cancelReservation(
     @Param('id', ParseIntPipe) id: number,
-    @Req() request: Request,
+    @Param('reservationId') reservationId: string,
   ) {
-    const { reservationId } = request.params;
-
     const data: DeleteReservationDto = {
       userId: id,
       reservationId: reservationId,
