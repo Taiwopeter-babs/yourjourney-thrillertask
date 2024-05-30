@@ -1,4 +1,4 @@
-# ThrillersTravels Backend Task Submission
+# YourJourney-ThrillersTravels Microservices API
 
 ## Content
 
@@ -8,7 +8,7 @@
 
 ## Description
 
-The task is to implement a travel booking platform with Nestjs using a microservices architecture that utilizes `RabbitMQ` or `Kafka` as a message broker to enable communication between these services. `RabbitMQ` was used in this implementation.
+The is an implementation of a travel booking platform with Nestjs using a microservices architecture that utilizes `RabbitMQ` as a message broker to enable communication between these services.
 
 The microservices include:
 
